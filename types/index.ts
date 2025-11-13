@@ -131,6 +131,117 @@ export interface MediaGallery {
   createdAt: Date;
 }
 
+// Event Types
+export interface Event {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  location?: string;
+  isVirtual: boolean;
+  virtualLink?: string;
+  capacity?: number;
+  currentAttendees: number;
+  organizerId: string;
+  coverImage?: string;
+  tags: string[];
+  isRecurring: boolean;
+  recurrenceRule?: string; // RRULE format for recurring events
+  status: 'draft' | 'published' | 'cancelled' | 'completed';
+  requiresApproval: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface EventRSVP {
+  id: string;
+  eventId: string;
+  userId: string;
+  status: 'going' | 'interested' | 'not_going';
+  response?: string; // Optional response/note
+  volunteerRole?: string; // For volunteer events
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface EventComment {
+  id: string;
+  eventId: string;
+  userId: string;
+  content: string;
+  parentId?: string;
+  createdAt: Date;
+}
+
+// Enhanced User Profile Types
+export interface UserProfile {
+  userId: string;
+  user: User;
+
+  // Contact & Location
+  phone?: string;
+  location?: string;
+  timezone?: string;
+  website?: string;
+  socialLinks?: SocialLinks;
+
+  // Profile Content
+  bio?: string;
+  longBio?: string;
+  coverImage?: string;
+
+  // Skills & Interests
+  skills: string[];
+  interests: string[];
+  languages: string[];
+
+  // Organization Specific
+  memberSince?: Date;
+  volunteeredHours?: number;
+  badges: UserBadge[];
+
+  // Stats
+  followersCount: number;
+  followingCount: number;
+  postsCount: number;
+  eventsAttended: number;
+
+  // Privacy Settings
+  isPublic: boolean;
+  showEmail: boolean;
+  showPhone: boolean;
+  showLocation: boolean;
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface SocialLinks {
+  twitter?: string;
+  linkedin?: string;
+  instagram?: string;
+  facebook?: string;
+  github?: string;
+  website?: string;
+}
+
+export interface UserBadge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  earnedAt: Date;
+}
+
+export interface Follow {
+  id: string;
+  followerId: string;
+  followingId: string;
+  createdAt: Date;
+}
+
 // API Response Types
 export interface ApiResponse<T> {
   success: boolean;

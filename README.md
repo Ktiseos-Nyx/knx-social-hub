@@ -4,6 +4,8 @@ A Next.js-based social hub framework for non-profit organizations. This is a pro
 
 ## Features
 
+- **Events & Calendar**: Community events, volunteer opportunities, and RSVP management
+- **User Profiles**: Comprehensive member profiles with skills, badges, and social connections
 - **Authentication System**: User registration, login, and role-based access control (Admin, Member, Guest)
 - **Discord-like Chat**: Real-time messaging with channels and direct messages
 - **Blog System**:
@@ -35,9 +37,13 @@ knx-social-hub/
 │   │   │   └── posts/
 │   │   ├── chat/                 # Chat endpoints
 │   │   │   └── channels/
+│   │   ├── events/               # Event endpoints
+│   │   │   └── [eventId]/rsvp/
 │   │   ├── media/                # Media upload endpoints
 │   │   │   └── upload/
-│   │   └── portfolio/            # Portfolio endpoints
+│   │   ├── portfolio/            # Portfolio endpoints
+│   │   └── profile/              # Profile endpoints
+│   │       └── follow/
 │   ├── auth/                     # Auth pages
 │   │   ├── login/
 │   │   └── register/
@@ -45,8 +51,15 @@ knx-social-hub/
 │   │   └── new/
 │   ├── chat/                     # Chat interface
 │   ├── dashboard/                # Member dashboard
+│   ├── events/                   # Events pages
+│   │   ├── new/
+│   │   └── calendar/
 │   ├── media/                    # Media gallery
 │   ├── portfolio/                # Portfolio showcase
+│   ├── profile/                  # User profiles
+│   │   ├── [username]/
+│   │   ├── edit/
+│   │   └── members/
 │   ├── admin/                    # Admin dashboard
 │   ├── layout.tsx                # Root layout
 │   ├── page.tsx                  # Home page
@@ -65,10 +78,14 @@ knx-social-hub/
 │   │   └── blogService.ts        # Blog service
 │   ├── chat/
 │   │   └── chatService.ts        # Chat service
+│   ├── events/
+│   │   └── eventService.ts       # Event service
 │   ├── media/
 │   │   └── mediaService.ts       # Media service
 │   ├── portfolio/
 │   │   └── portfolioService.ts   # Portfolio service
+│   ├── profile/
+│   │   └── profileService.ts     # Profile service
 │   └── db/                       # Database utilities (to be implemented)
 ├── types/
 │   └── index.ts                  # TypeScript type definitions
@@ -109,7 +126,29 @@ npm run dev
 
 ## Core Modules
 
-### 1. Authentication (`/lib/auth/`)
+### 1. Events & Calendar (`/lib/events/`)
+- Event creation and management
+- RSVP system with capacity limits
+- Calendar view (monthly)
+- Virtual and in-person events
+- Recurring events support
+- Event comments and discussions
+- Volunteer role assignments
+
+**Pages**: `/events`, `/events/new`, `/events/calendar`, `/events/[slug]`
+
+### 2. User Profiles (`/lib/profile/`)
+- Comprehensive user profiles
+- Skills, interests, and languages
+- Social connections (follow/unfollow)
+- Achievement badges
+- Volunteer hours tracking
+- Privacy controls
+- Member directory
+
+**Pages**: `/profile/[username]`, `/profile/edit`, `/profile/members`
+
+### 3. Authentication (`/lib/auth/`)
 - User registration and login
 - Role-based access control (Admin, Member, Guest)
 - Session management
@@ -117,7 +156,7 @@ npm run dev
 
 **Pages**: `/auth/login`, `/auth/register`
 
-### 2. Chat System (`/lib/chat/`)
+### 4. Chat System (`/lib/chat/`)
 - Public and private channels
 - Direct messaging
 - Message threading and replies
@@ -125,7 +164,7 @@ npm run dev
 
 **Pages**: `/chat`
 
-### 3. Blog System (`/lib/blog/`)
+### 5. Blog System (`/lib/blog/`)
 - **Organization Blog**: Official posts by admins
 - **Member Blogs**: Personal posts by members
 - Draft and publish workflow
@@ -134,7 +173,7 @@ npm run dev
 
 **Pages**: `/blog`, `/blog/new`
 
-### 4. Portfolio System (`/lib/portfolio/`)
+### 6. Portfolio System (`/lib/portfolio/`)
 - Personal portfolio for each member
 - Project showcase with media
 - Public/private visibility controls
@@ -142,7 +181,7 @@ npm run dev
 
 **Pages**: `/portfolio`, `/portfolio/[username]`
 
-### 5. Media Gallery (`/lib/media/`)
+### 7. Media Gallery (`/lib/media/`)
 - Image uploads and galleries
 - Video hosting and playback
 - Audio/podcast hosting
@@ -150,13 +189,13 @@ npm run dev
 
 **Pages**: `/media`
 
-### 6. Dashboard (`/dashboard`)
+### 8. Dashboard (`/dashboard`)
 - Personal activity feed
 - Quick stats
 - Content management shortcuts
 - Recent activity log
 
-### 7. Admin Panel (`/admin`)
+### 9. Admin Panel (`/admin`)
 - User management
 - Content moderation
 - Channel management
@@ -171,6 +210,18 @@ All API routes follow RESTful conventions and return JSON responses:
 - `POST /api/auth/login` - User login
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/logout` - User logout
+
+### Events
+- `GET /api/events` - Get events (upcoming, past, or by month)
+- `POST /api/events` - Create new event
+- `GET /api/events/[eventId]/rsvp` - Get event RSVPs
+- `POST /api/events/[eventId]/rsvp` - RSVP to event
+
+### Profile
+- `GET /api/profile` - Get user profile(s)
+- `PUT /api/profile` - Update user profile
+- `POST /api/profile/follow` - Follow a user
+- `DELETE /api/profile/follow` - Unfollow a user
 
 ### Chat
 - `GET /api/chat/channels` - Get user's channels
@@ -200,6 +251,11 @@ All API routes follow RESTful conventions and return JSON responses:
 All TypeScript types are defined in `/types/index.ts`:
 
 - `User` - User account data
+- `UserProfile` - Enhanced user profile with skills, badges, and stats
+- `Event` - Event data with RSVP and calendar support
+- `EventRSVP` - Event RSVP status
+- `Follow` - User follow relationship
+- `UserBadge` - Achievement badges
 - `ChatChannel` - Chat channel structure
 - `ChatMessage` - Message structure
 - `BlogPost` - Blog post data

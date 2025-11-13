@@ -12,6 +12,22 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Events Module */}
+          <Link href="/events" className="p-6 border rounded-lg hover:shadow-lg transition">
+            <h2 className="text-2xl font-semibold mb-2">📅 Events</h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Community events, volunteer opportunities, and calendar
+            </p>
+          </Link>
+
+          {/* Member Profiles */}
+          <Link href="/profile/members" className="p-6 border rounded-lg hover:shadow-lg transition">
+            <h2 className="text-2xl font-semibold mb-2">👥 Members</h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Browse member directory and connect with community
+            </p>
+          </Link>
+
           {/* Chat Module */}
           <Link href="/chat" className="p-6 border rounded-lg hover:shadow-lg transition">
             <h2 className="text-2xl font-semibold mb-2">💬 Chat</h2>
